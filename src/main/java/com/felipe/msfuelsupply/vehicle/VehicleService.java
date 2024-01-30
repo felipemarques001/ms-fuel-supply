@@ -1,5 +1,7 @@
 package com.felipe.msfuelsupply.vehicle;
 
+import com.felipe.msfuelsupply.exceptions.FieldAlreadyInUseException;
+import com.felipe.msfuelsupply.exceptions.ResourceNotFoundException;
 import com.felipe.msfuelsupply.vehicle.dtos.UpdateVehicleDTO;
 import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
 import jakarta.transaction.Transactional;
@@ -20,7 +22,7 @@ public class VehicleService {
     @Transactional
     public VehicleDto create(VehicleDto dto) {
         if(vehicleRepository.existsByPlate(dto.plate()))
-            throw new RuntimeException("Veículo já cadastrado!");
+            throw new FieldAlreadyInUseException("plate", dto.plate());
         var newVehicle = new Vehicle(dto);
         var savedVehicle = vehicleRepository.save(newVehicle);
         return VehicleDto.createVehicleDto(savedVehicle);
@@ -29,7 +31,7 @@ public class VehicleService {
     public VehicleDto findByPlate(String plate) {
         var vehicleOp = vehicleRepository.findByPlate(plate);
         if(vehicleOp.isEmpty())
-            throw new RuntimeException("Vehicle not found with this plate!");
+            throw new ResourceNotFoundException("Vehicle", "plate", plate);
         return VehicleDto.createVehicleDto(vehicleOp.get());
     }
 
@@ -46,7 +48,7 @@ public class VehicleService {
     public VehicleDto updateVehicle(UpdateVehicleDTO dto, String plate) {
         var vehicleOp = vehicleRepository.findByPlate(plate);
         if(vehicleOp.isEmpty())
-            throw new RuntimeException("Vehicle not found with this plate!");
+            throw new ResourceNotFoundException("Vehicle", "plate", plate);
         vehicleOp.get().setBrand(dto.brand());
         vehicleOp.get().setModel(dto.model());
         var updatedVehicle = vehicleRepository.save(vehicleOp.get());
@@ -56,7 +58,7 @@ public class VehicleService {
     @Transactional
     public void deleteByPlate(String plate) {
         if(!(vehicleRepository.existsByPlate(plate)))
-            throw new RuntimeException("Vehicle not found with this plate!");
+            throw new ResourceNotFoundException("Vehicle", "plate", plate);
         vehicleRepository.deleteByPlate(plate);
     }
 }

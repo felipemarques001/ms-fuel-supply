@@ -1,5 +1,6 @@
 package com.felipe.msfuelsupply.vehicle;
 
+import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
 import com.felipe.msfuelsupply.vehicle.dtos.UpdateVehicleDTO;
 import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
 import jakarta.validation.Valid;
@@ -20,28 +21,28 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<VehicleDto> create(@RequestBody @Valid VehicleDto dto) {
+    public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid VehicleDto dto) {
         var response = service.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIGlobalResponseDTO(response));
     }
 
     @GetMapping("/{plate}")
-    public ResponseEntity<VehicleDto> findByPlate(@PathVariable String plate) {
+    public ResponseEntity<APIGlobalResponseDTO> findByPlate(@PathVariable String plate) {
         var response = service.findByPlate(plate);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
     @GetMapping
-    public ResponseEntity<List<VehicleDto>> findAll() {
+    public ResponseEntity<APIGlobalResponseDTO> findAll() {
         var response = service.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
     @PutMapping("/{plate}")
-    public ResponseEntity<VehicleDto> updateVehicle(@RequestBody @Valid UpdateVehicleDTO dto,
-                                                    @PathVariable String plate) {
+    public ResponseEntity<APIGlobalResponseDTO> updateVehicle(@RequestBody @Valid UpdateVehicleDTO dto,
+                                                              @PathVariable String plate) {
         var response = service.updateVehicle(dto, plate);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
     @DeleteMapping("/{plate}")
