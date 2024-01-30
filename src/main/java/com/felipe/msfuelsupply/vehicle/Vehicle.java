@@ -29,7 +29,7 @@ public class Vehicle {
     @Column(nullable = false, unique = true, length = 7)
     private String plate;
 
-    public Vehicle(VehicleRequestDto dto) {
+    public Vehicle(VehicleDto dto) {
         model = dto.model();
         brand = dto.brand();
         plate = dto.plate();

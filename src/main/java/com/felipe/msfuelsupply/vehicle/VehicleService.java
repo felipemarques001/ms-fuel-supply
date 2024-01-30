@@ -3,6 +3,10 @@ package com.felipe.msfuelsupply.vehicle;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class VehicleService {
 
@@ -13,27 +17,28 @@ public class VehicleService {
     }
 
     @Transactional
-    public Vehicle create(VehicleRequestDto dto) {
+    public VehicleDto create(VehicleDto dto) {
         if(vehicleRepository.existsByPlate(dto.plate()))
             throw new RuntimeException("Veículo já cadastrado!");
         var newVehicle = new Vehicle(dto);
-        return vehicleRepository.save(newVehicle);
+        var savedVehicle = vehicleRepository.save(newVehicle);
+        return VehicleDto.createVehicleDto(savedVehicle);
     }
 
-    public void findById() {
-
+    public VehicleDto findByPlate(String plate) {
+        var vehicleOp = vehicleRepository.findByPlate(plate);
+        if(vehicleOp.isEmpty())
+            throw new RuntimeException("Vehicle not found with this plate!");
+        return VehicleDto.createVehicleDto(vehicleOp.get());
     }
 
-    public void findByBrand() {
-
-    }
-
-    public void findByModel() {
-
-    }
-
-    public void findAll() {
-
+    public List<VehicleDto> findAll() {
+        var vehicleDtoList = new ArrayList<VehicleDto>();
+        var vehicleList = vehicleRepository.findAll();
+        vehicleList.forEach(vehicle ->
+                vehicleDtoList.add(VehicleDto.createVehicleDto(vehicle))
+        );
+        return vehicleDtoList;
     }
 
     @Transactional
