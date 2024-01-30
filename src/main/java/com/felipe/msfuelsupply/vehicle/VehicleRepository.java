@@ -13,4 +13,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, UUID> {
     Optional<Vehicle> findByPlate(String plate);
 
     boolean existsByPlate(String plate);
+
+    void deleteByPlate(String plate);
 }

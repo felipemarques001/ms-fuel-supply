@@ -1,5 +1,6 @@
-package com.felipe.msfuelsupply.vehicle;
+package com.felipe.msfuelsupply.vehicle.dtos;
 
+import com.felipe.msfuelsupply.vehicle.Vehicle;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,8 +15,6 @@ public record VehicleDto(
         @NotBlank(message = "The value of plate cannot be empty")
         @Length(min = 7, max = 7, message = "The plate input need has 7 characters")
         String plate
-
-
 ) {
 
         public static VehicleDto createVehicleDto(Vehicle vehicle) {

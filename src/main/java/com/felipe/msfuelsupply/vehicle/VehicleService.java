@@ -1,11 +1,12 @@
 package com.felipe.msfuelsupply.vehicle;
 
+import com.felipe.msfuelsupply.vehicle.dtos.UpdateVehicleDTO;
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VehicleService {
@@ -42,7 +43,20 @@ public class VehicleService {
     }
 
     @Transactional
-    public void deleteByPlate() {
+    public VehicleDto updateVehicle(UpdateVehicleDTO dto, String plate) {
+        var vehicleOp = vehicleRepository.findByPlate(plate);
+        if(vehicleOp.isEmpty())
+            throw new RuntimeException("Vehicle not found with this plate!");
+        vehicleOp.get().setBrand(dto.brand());
+        vehicleOp.get().setModel(dto.model());
+        var updatedVehicle = vehicleRepository.save(vehicleOp.get());
+        return VehicleDto.createVehicleDto(updatedVehicle);
+    }
 
+    @Transactional
+    public void deleteByPlate(String plate) {
+        if(!(vehicleRepository.existsByPlate(plate)))
+            throw new RuntimeException("Vehicle not found with this plate!");
+        vehicleRepository.deleteByPlate(plate);
     }
 }

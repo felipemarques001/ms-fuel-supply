@@ -1,5 +1,6 @@
 package com.felipe.msfuelsupply.vehicle;
 
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
