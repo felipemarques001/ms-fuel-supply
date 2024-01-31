@@ -1,14 +1,13 @@
 package com.felipe.msfuelsupply.vehicle;
 
 import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
-import com.felipe.msfuelsupply.vehicle.dtos.UpdateVehicleDTO;
-import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/vehicles")
@@ -21,14 +20,14 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid VehicleDto dto) {
+    public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid VehicleRequestDTO dto) {
         var response = service.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new APIGlobalResponseDTO(response));
     }
 
-    @GetMapping("/{plate}")
-    public ResponseEntity<APIGlobalResponseDTO> findByPlate(@PathVariable String plate) {
-        var response = service.findByPlate(plate);
+    @GetMapping("/{id}")
+    public ResponseEntity<APIGlobalResponseDTO> findById(@PathVariable UUID id) {
+        var response = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
@@ -38,16 +37,16 @@ public class VehicleController {
         return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
-    @PutMapping("/{plate}")
-    public ResponseEntity<APIGlobalResponseDTO> updateVehicle(@RequestBody @Valid UpdateVehicleDTO dto,
-                                                              @PathVariable String plate) {
-        var response = service.updateVehicle(dto, plate);
+    @PutMapping("/{id}")
+    public ResponseEntity<APIGlobalResponseDTO> updateVehicle(@PathVariable UUID id,
+                                                              @RequestBody @Valid VehicleRequestDTO dto) {
+        var response = service.updateVehicle(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(new APIGlobalResponseDTO(response));
     }
 
-    @DeleteMapping("/{plate}")
-    public ResponseEntity deleteVehicle(@PathVariable String plate) {
-        service.deleteByPlate(plate);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteVehicle(@PathVariable UUID id) {
+        service.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

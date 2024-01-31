@@ -1,6 +1,6 @@
 package com.felipe.msfuelsupply.vehicle;
 
-import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class Vehicle {
     @Column(nullable = false, unique = true, length = 7)
     private String plate;
 
-    public Vehicle(VehicleDto dto) {
+    public Vehicle(VehicleRequestDTO dto) {
         model = dto.model();
         brand = dto.brand();
         plate = dto.plate();

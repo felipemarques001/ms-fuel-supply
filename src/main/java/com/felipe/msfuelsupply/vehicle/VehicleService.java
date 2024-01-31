@@ -2,13 +2,14 @@ package com.felipe.msfuelsupply.vehicle;
 
 import com.felipe.msfuelsupply.exceptions.FieldAlreadyInUseException;
 import com.felipe.msfuelsupply.exceptions.ResourceNotFoundException;
-import com.felipe.msfuelsupply.vehicle.dtos.UpdateVehicleDTO;
-import com.felipe.msfuelsupply.vehicle.dtos.VehicleDto;
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleRequestDTO;
+import com.felipe.msfuelsupply.vehicle.dtos.VehicleResponseDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VehicleService {
@@ -20,45 +21,59 @@ public class VehicleService {
     }
 
     @Transactional
-    public VehicleDto create(VehicleDto dto) {
+    public VehicleResponseDTO create(VehicleRequestDTO dto) {
         if(vehicleRepository.existsByPlate(dto.plate()))
             throw new FieldAlreadyInUseException("plate", dto.plate());
+
         var newVehicle = new Vehicle(dto);
         var savedVehicle = vehicleRepository.save(newVehicle);
-        return VehicleDto.createVehicleDto(savedVehicle);
+
+        return VehicleResponseDTO.createVehicleResponseDTO(savedVehicle);
     }
 
-    public VehicleDto findByPlate(String plate) {
-        var vehicleOp = vehicleRepository.findByPlate(plate);
+    public VehicleResponseDTO findById(UUID id) {
+        var vehicleOp = vehicleRepository.findById(id);
         if(vehicleOp.isEmpty())
-            throw new ResourceNotFoundException("Vehicle", "plate", plate);
-        return VehicleDto.createVehicleDto(vehicleOp.get());
+            throw new ResourceNotFoundException("Vehicle", "ID", id.toString());
+
+        return VehicleResponseDTO.createVehicleResponseDTO(vehicleOp.get());
     }
 
-    public List<VehicleDto> findAll() {
-        var vehicleDtoList = new ArrayList<VehicleDto>();
+//    public VehicleRequestDTO findByPlate(String plate) {
+//        var vehicleOp = vehicleRepository.findByPlate(plate);
+//        if(vehicleOp.isEmpty())
+//            throw new ResourceNotFoundException("Vehicle", "plate", plate);
+//        return VehicleRequestDTO.createVehicleDto(vehicleOp.get());
+//    }
+
+    public List<VehicleResponseDTO> findAll() {
+        var vehicleResponseDTOList = new ArrayList<VehicleResponseDTO>();
         var vehicleList = vehicleRepository.findAll();
-        vehicleList.forEach(vehicle ->
-                vehicleDtoList.add(VehicleDto.createVehicleDto(vehicle))
+        vehicleList.forEach(vehicle -> vehicleResponseDTOList.add(
+                VehicleResponseDTO.createVehicleResponseDTO(vehicle))
         );
-        return vehicleDtoList;
+        return vehicleResponseDTOList;
     }
 
     @Transactional
-    public VehicleDto updateVehicle(UpdateVehicleDTO dto, String plate) {
-        var vehicleOp = vehicleRepository.findByPlate(plate);
+    public VehicleResponseDTO updateVehicle(UUID id, VehicleRequestDTO dto) {
+        var vehicleOp = vehicleRepository.findById(id);
         if(vehicleOp.isEmpty())
-            throw new ResourceNotFoundException("Vehicle", "plate", plate);
+            throw new ResourceNotFoundException("Vehicle", "ID", id.toString());
+
+        vehicleOp.get().setPlate(dto.plate());
         vehicleOp.get().setBrand(dto.brand());
         vehicleOp.get().setModel(dto.model());
+
         var updatedVehicle = vehicleRepository.save(vehicleOp.get());
-        return VehicleDto.createVehicleDto(updatedVehicle);
+        return VehicleResponseDTO.createVehicleResponseDTO(updatedVehicle);
     }
 
     @Transactional
-    public void deleteByPlate(String plate) {
-        if(!(vehicleRepository.existsByPlate(plate)))
-            throw new ResourceNotFoundException("Vehicle", "plate", plate);
-        vehicleRepository.deleteByPlate(plate);
+    public void deleteById(UUID id) {
+        if(!(vehicleRepository.existsById(id)))
+            throw new ResourceNotFoundException("Vehicle", "ID", id.toString());
+
+        vehicleRepository.deleteById(id);
     }
 }
