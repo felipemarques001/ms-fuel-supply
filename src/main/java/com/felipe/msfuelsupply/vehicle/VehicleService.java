@@ -39,13 +39,6 @@ public class VehicleService {
         return VehicleResponseDTO.createVehicleResponseDTO(vehicleOp.get());
     }
 
-//    public VehicleRequestDTO findByPlate(String plate) {
-//        var vehicleOp = vehicleRepository.findByPlate(plate);
-//        if(vehicleOp.isEmpty())
-//            throw new ResourceNotFoundException("Vehicle", "plate", plate);
-//        return VehicleRequestDTO.createVehicleDto(vehicleOp.get());
-//    }
-
     public List<VehicleResponseDTO> findAll() {
         var vehicleResponseDTOList = new ArrayList<VehicleResponseDTO>();
         var vehicleList = vehicleRepository.findAll();

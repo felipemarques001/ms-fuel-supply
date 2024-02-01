@@ -9,5 +9,4 @@ public class MsFuelSupplyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MsFuelSupplyApplication.class, args);
 	}
-
 }

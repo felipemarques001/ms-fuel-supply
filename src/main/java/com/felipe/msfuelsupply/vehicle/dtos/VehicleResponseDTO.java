@@ -16,6 +16,7 @@ public record VehicleResponseDTO(
                 vehicle.getId(),
                 vehicle.getModel(),
                 vehicle.getBrand(),
-                vehicle.getPlate());
+                vehicle.getPlate()
+        );
     }
 }
