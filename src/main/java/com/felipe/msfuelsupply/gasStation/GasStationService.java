@@ -4,21 +4,24 @@ import com.felipe.msfuelsupply.exceptions.FieldAlreadyInUseException;
 import com.felipe.msfuelsupply.exceptions.ResourceNotFoundException;
 import com.felipe.msfuelsupply.gasStation.dtos.GasStationRequestDTO;
 import com.felipe.msfuelsupply.gasStation.dtos.GasStationResponseDTO;
+import com.felipe.msfuelsupply.supply.Supply;
+import com.felipe.msfuelsupply.supply.SupplyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class GasStationService {
 
     private final GasStationRepository gasStationRepository;
+    private final SupplyRepository supplyRepository;
 
-    public GasStationService(GasStationRepository gasStationRepository) {
+    public GasStationService(GasStationRepository gasStationRepository, SupplyRepository supplyRepository) {
         this.gasStationRepository = gasStationRepository;
+        this.supplyRepository = supplyRepository;
     }
 
     @Transactional
@@ -69,6 +72,10 @@ public class GasStationService {
     public void deleteByName(UUID id) {
         if(!(gasStationRepository.existsById(id)))
             throw new ResourceNotFoundException("Gas station", "ID", id.toString());
+
+        List<Supply> suppliesRelated = supplyRepository.findByGasStationId(id);
+        suppliesRelated.forEach(supply -> supplyRepository.deleteById(supply.getId()));
+
         gasStationRepository.deleteById(id);
     }
 }

@@ -2,6 +2,8 @@ package com.felipe.msfuelsupply.vehicle;
 
 import com.felipe.msfuelsupply.exceptions.FieldAlreadyInUseException;
 import com.felipe.msfuelsupply.exceptions.ResourceNotFoundException;
+import com.felipe.msfuelsupply.supply.Supply;
+import com.felipe.msfuelsupply.supply.SupplyRepository;
 import com.felipe.msfuelsupply.vehicle.dtos.VehicleRequestDTO;
 import com.felipe.msfuelsupply.vehicle.dtos.VehicleResponseDTO;
 import jakarta.transaction.Transactional;
@@ -15,9 +17,11 @@ import java.util.UUID;
 public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
+    private final SupplyRepository supplyRepository;
 
-    public VehicleService(VehicleRepository vehicleRepository) {
+    public VehicleService(VehicleRepository vehicleRepository, SupplyRepository supplyRepository) {
         this.vehicleRepository = vehicleRepository;
+        this.supplyRepository = supplyRepository;
     }
 
     @Transactional
@@ -66,6 +70,9 @@ public class VehicleService {
     public void deleteById(UUID id) {
         if(!(vehicleRepository.existsById(id)))
             throw new ResourceNotFoundException("Vehicle", "ID", id.toString());
+
+        List<Supply> suppliesRelated = supplyRepository.findByVehicleId(id);
+        suppliesRelated.forEach(supply -> supplyRepository.deleteById(supply.getId()));
 
         vehicleRepository.deleteById(id);
     }
