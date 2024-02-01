@@ -47,6 +47,6 @@ public class GasStationController {
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable UUID id) {
         gasStationService.deleteByName(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

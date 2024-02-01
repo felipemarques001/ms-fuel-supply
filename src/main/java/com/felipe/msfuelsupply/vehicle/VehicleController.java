@@ -47,6 +47,6 @@ public class VehicleController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteVehicle(@PathVariable UUID id) {
         service.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

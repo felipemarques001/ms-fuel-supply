@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record SupplyRequestDTO (
 
