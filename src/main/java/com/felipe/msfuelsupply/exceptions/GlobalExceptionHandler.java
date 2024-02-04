@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,5 +37,10 @@ public class GlobalExceptionHandler {
         Map<String, String> error = Map.of("error", ex.getMessage());
         var response = new APIGlobalResponseDTO(error);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    protected ResponseEntity<APIGlobalResponseDTO> handleHttpClientErrorException(HttpClientErrorException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
