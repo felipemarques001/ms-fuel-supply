@@ -31,7 +31,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             FieldAlreadyInUseException.class,
-            ResourceNotFoundException.class
+            ResourceNotFoundException.class,
+            JWTTokenNotFoundException.class
     })
     protected ResponseEntity<APIGlobalResponseDTO> handleFieldAlreadyInUseException(RuntimeException ex) {
         Map<String, String> error = Map.of("error", ex.getMessage());
