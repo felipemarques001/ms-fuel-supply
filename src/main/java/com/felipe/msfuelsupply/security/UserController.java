@@ -2,8 +2,10 @@ package com.felipe.msfuelsupply.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.felipe.msfuelsupply.security.dtos.LoginRequestBody;
+import com.felipe.msfuelsupply.security.dtos.SignUpRequestBody;
 import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +24,18 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequestBody dto) throws JsonProcessingException {
-        ResponseEntity<String> response = service.loginUser(dto);
+        return service.loginUser(dto);
+    }
 
-        return ResponseEntity
-                .status(response.getStatusCode())
-                .body(response.getBody());
+    @PostMapping("/signup")
+    public ResponseEntity<String> create(@RequestBody @Valid SignUpRequestBody dto) throws JsonProcessingException {
+        var response = service.createUser(dto);
+
+        if(response.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+
+        return response;
     }
 }

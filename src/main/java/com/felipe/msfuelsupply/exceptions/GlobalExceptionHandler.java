@@ -41,7 +41,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
-    protected ResponseEntity<APIGlobalResponseDTO> handleHttpClientErrorException(HttpClientErrorException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    protected ResponseEntity<Void> handleHttpClientErrorUnauthorizedException(HttpClientErrorException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .build();
+    }
+
+    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
+    protected ResponseEntity<APIGlobalResponseDTO> handleHttpClientErrorExceptionBadRequest(HttpClientErrorException ex) {
+        var requestBody = ex.getResponseBodyAs(Map.class);
+
+        if(requestBody == null)
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+
+        var errorMessage = requestBody.get("response");
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new APIGlobalResponseDTO(errorMessage));
     }
 }
