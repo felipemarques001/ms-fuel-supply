@@ -1,4 +1,4 @@
-## Microservice-Fuel-Supply
+## Microservice-Fuel-Supply description
 This application is an API made by me that manages gasoline supplies. Furthermore, this microservice uses one another microservice to authenticate/create users and verify permissions.
 
 
@@ -22,6 +22,10 @@ Here are the technologies used in this project.
 * Spring WEB
 * Validation
 * Lombok
+
+# Microservice-Fuel-Supply diagram
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/acce656e-8015-4edd-a668-a0da6592ea8c)
+
 
 
 # Documentation:
