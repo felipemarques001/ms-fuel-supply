@@ -28,6 +28,9 @@ Here are the technologies used in this project.
 ![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/acce656e-8015-4edd-a668-a0da6592ea8c)
 
 
+# Microservice-Fuel-Supply ERD
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/06c632b0-44cf-41b4-80ee-eed1e25cd1dd)
+
 
 # Documentation:
 https://github.com/felipemarques001/ms-fuel-supply/blob/main/DOCUMENTATION.md
