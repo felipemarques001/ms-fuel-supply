@@ -8,16 +8,20 @@
 ![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/b6d32739-049c-4bc9-98d1-4b57a83f193e)
 
 #### 1.1.2 - Request body: The body request is of JSON type, below there is an example it. Also, to create a new user, the user who calls method need be a admin. To call this method, a JWT token is necessary in order to ms-authenticate perform authenticatation and verify the permissions of user. <br />
-The idsGroups represents the groups which the new user will have. These ID's are at database of ms-authentication.
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/cf001bd9-3dd4-4bd0-b785-771066abc095)
+The groupIds field represents the groups which the new user will have. These ID's are at database of ms-authentication.
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/bf6ed4f6-7d24-48c7-b7e7-91b1f33ac0c3)
+
 
 #### 1.1.3 - Response: The response has the 201 status and its body contains the JWT Token of the new user: <br />
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/e97e4bd1-bd32-439f-af90-fb8e78de5896)
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/67648e66-be41-4bb1-8582-1582e3695ae5)
 
 If the JWT token is not sent, you will receive the following response with the 400 status: <br />
 ![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/bd1dd335-e9da-4477-9fb3-d7d68fd203d9)
 
- 
+#### Warnings:
+- If the user sent invalid values, he will receive a response with 400 status which contains a body that informs the error. Example: 
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/fa908571-7981-408d-8590-d2c670a9f2b2)
+
 
 ### 1.2 - LOGIN User:
 
@@ -25,13 +29,18 @@ If the JWT token is not sent, you will receive the following response with the 4
 ![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/2e1af6e1-9bc8-4328-a860-50956ce0b712)
 
 #### 1.2.2 - Request body: The body request is of JSON type, below there is an example it. <br />
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/47578d7e-5ef1-44a4-bf05-ca3cfe7b973d)
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/87da27d6-9f32-497e-985d-b8241861cf0e)
 
 #### 1.2.3 - Response: The response has the 200 status and its body contains the JWT Token of the new user: <br />
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/9aa17690-4b9b-4095-893a-bf425aae9bbc)
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/e7ed4f12-54b4-4a86-b3c4-e2ae1044fbfb)
 
-If there is an invalid credential, you will receive a response with the 401 status and empty body. <br />
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/6187aeb3-9464-49e1-9d23-e0065aa285f8)
+If the JWT token is not sent, you will receive the following response with the 400 status: <br />
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/bd1dd335-e9da-4477-9fb3-d7d68fd203d9)
+
+#### Warnings:
+- If the token belongs to a non-administrator user, you will receive a response with 401 status.
+- If the user sent invalid values, he will receive a response with 400 status which contains a body that informs the error. Example: 
+![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/355b9ffa-15c2-4d53-8117-ea8cd02d0017)
 
 <br />
 
