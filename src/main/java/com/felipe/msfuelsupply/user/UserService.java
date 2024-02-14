@@ -1,24 +1,20 @@
-package com.felipe.msfuelsupply.security;
+package com.felipe.msfuelsupply.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.felipe.msfuelsupply.exceptions.JWTTokenNotFoundException;
-import com.felipe.msfuelsupply.security.dtos.LoginRequestBody;
-import com.felipe.msfuelsupply.security.dtos.SignUpRequestBody;
+import com.felipe.msfuelsupply.user.dtos.LoginRequestBody;
+import com.felipe.msfuelsupply.user.dtos.SignUpRequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class UserService {
 
-    private final String ACCESS_KEY = "chaveDeSegredo";
-    private final String URI_BASE = "http://localhost:9090/api/v1/usuarios";
+    private final String ACCESS_KEY = "secretAccessKey";
+    private final String URI_BASE = "http://localhost:9090/api/v1/users";
 
     private final HttpServletRequest servletRequest;
 
@@ -27,7 +23,7 @@ public class UserService {
     }
 
     public ResponseEntity<String> loginUser(LoginRequestBody request) throws JsonProcessingException {
-        request.setChaveAcesso(ACCESS_KEY);
+        request.setAccessKey(ACCESS_KEY);
         var restTemplate = new RestTemplate();
         var headers = new HttpHeaders();
 
@@ -49,12 +45,12 @@ public class UserService {
     }
 
     public HttpStatusCode verifyPermission(String permission) {
-        // Verifica se token JWT foi enviado na requisição
+        // Verify if the JWT token was sent at request
         var authHeader = servletRequest.getHeader("Authorization");
         if(authHeader == null)
             throw new JWTTokenNotFoundException();
 
-        final String URI = URI_BASE + "/verificarPermissao/" + permission;
+        final String URI = URI_BASE + "/verify-permission?permission=" + permission;
         var restTemplate = new RestTemplate();
         var headers = new HttpHeaders();
 
@@ -72,11 +68,11 @@ public class UserService {
 
     public ResponseEntity<String> createUser(SignUpRequestBody request) throws JsonProcessingException {
         // Verify if the user who call this method has permission to create a new user
-        HttpStatusCode authorizationStatusCode = verifyPermission("cadastrar usuario");
+        HttpStatusCode authorizationStatusCode = verifyPermission("create-user");
         if (authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        request.setChaveAcesso(ACCESS_KEY);
+        request.setAccessKey(ACCESS_KEY);
 
         // Build the request
         var restTemplate = new RestTemplate();

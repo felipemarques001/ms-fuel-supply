@@ -1,6 +1,6 @@
 package com.felipe.msfuelsupply.supply;
 
-import com.felipe.msfuelsupply.security.UserService;
+import com.felipe.msfuelsupply.user.UserService;
 import com.felipe.msfuelsupply.supply.dtos.SupplyRequestDTO;
 import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class SupplyController {
 
     @PostMapping
     public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid SupplyRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("cadastrar supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("create-supply");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -37,7 +37,7 @@ public class SupplyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> findById(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-supply");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -49,7 +49,7 @@ public class SupplyController {
 
     @GetMapping
     public ResponseEntity<APIGlobalResponseDTO> findAll() {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-supply");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -62,7 +62,7 @@ public class SupplyController {
     @PutMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> update(@PathVariable UUID id,
                                                        @RequestBody @Valid SupplyRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("atualizar supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("update-supply");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -74,7 +74,7 @@ public class SupplyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("apagar supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("delete-supply");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

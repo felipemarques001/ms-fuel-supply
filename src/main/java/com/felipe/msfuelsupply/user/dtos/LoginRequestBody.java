@@ -1,4 +1,4 @@
-package com.felipe.msfuelsupply.security.dtos;
+package com.felipe.msfuelsupply.user.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,5 +18,5 @@ public class LoginRequestBody {
         @NotBlank(message = "The value of password cannot be empty")
         private String password;
 
-        private String chaveAcesso;
+        private String accessKey;
 }

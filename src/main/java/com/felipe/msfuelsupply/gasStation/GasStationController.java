@@ -1,7 +1,7 @@
 package com.felipe.msfuelsupply.gasStation;
 
 import com.felipe.msfuelsupply.gasStation.dtos.GasStationRequestDTO;
-import com.felipe.msfuelsupply.security.UserService;
+import com.felipe.msfuelsupply.user.UserService;
 import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class GasStationController {
 
     @PostMapping
     public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid GasStationRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("cadastrar gasstation");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("create-gas-station");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -37,7 +37,7 @@ public class GasStationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> findById(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler gasstation");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-gas-station");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -49,7 +49,7 @@ public class GasStationController {
 
     @GetMapping
     public ResponseEntity<APIGlobalResponseDTO> findAll() {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler gasstation");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-gas-station");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -62,7 +62,7 @@ public class GasStationController {
     @PutMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> update(@PathVariable UUID id,
                                                        @RequestBody @Valid GasStationRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("atualizar gasstation");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("update-gas-station");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -74,7 +74,7 @@ public class GasStationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("apagar supply");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("delete-gas-station");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

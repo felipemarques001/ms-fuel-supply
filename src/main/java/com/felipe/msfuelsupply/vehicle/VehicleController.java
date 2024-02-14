@@ -1,6 +1,6 @@
 package com.felipe.msfuelsupply.vehicle;
 
-import com.felipe.msfuelsupply.security.UserService;
+import com.felipe.msfuelsupply.user.UserService;
 import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
 import com.felipe.msfuelsupply.vehicle.dtos.VehicleRequestDTO;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<APIGlobalResponseDTO> create(@RequestBody @Valid VehicleRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("cadastrar vehicle");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("create-vehicle");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -38,7 +38,7 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> findById(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler vehicle");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-vehicle");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -50,7 +50,7 @@ public class VehicleController {
 
     @GetMapping
     public ResponseEntity<APIGlobalResponseDTO> findAll() {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("ler vehicle");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("read-vehicle");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -63,7 +63,7 @@ public class VehicleController {
     @PutMapping("/{id}")
     public ResponseEntity<APIGlobalResponseDTO> updateVehicle(@PathVariable UUID id,
                                                               @RequestBody @Valid VehicleRequestDTO dto) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("atualizar vehicle");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("update-vehicle");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -75,7 +75,7 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable UUID id) {
-        HttpStatusCode authorizationStatusCode = userService.verifyPermission("apagar vehicle");
+        HttpStatusCode authorizationStatusCode = userService.verifyPermission("delete-vehicle");
 
         if(authorizationStatusCode.equals(HttpStatus.UNAUTHORIZED))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

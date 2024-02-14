@@ -1,4 +1,4 @@
-package com.felipe.msfuelsupply.security.dtos;
+package com.felipe.msfuelsupply.user.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,8 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class SignUpRequestBody {
 
-    @NotBlank(message = "The value of 'nome' cannot be empty")
-    private String nome;
+    @NotBlank(message = "The value of 'name' cannot be empty")
+    private String name;
 
     @NotBlank(message = "The value of 'username' cannot be empty")
     private String username;
@@ -24,8 +24,9 @@ public class SignUpRequestBody {
     @NotBlank(message = "The value of 'password' cannot be empty")
     private String password;
 
-    @NotEmpty(message = "Please provide at least one group ID")
-    private List<String> idsGrupo;
+    private String accessKey;
 
-    private String chaveAcesso;
+    @NotEmpty(message = "Please provide at least one group ID")
+    private List<String> groupIds;
+
 }

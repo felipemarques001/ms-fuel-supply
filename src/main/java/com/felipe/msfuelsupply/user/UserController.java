@@ -1,9 +1,8 @@
-package com.felipe.msfuelsupply.security;
+package com.felipe.msfuelsupply.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.felipe.msfuelsupply.security.dtos.LoginRequestBody;
-import com.felipe.msfuelsupply.security.dtos.SignUpRequestBody;
-import com.felipe.msfuelsupply.utils.APIGlobalResponseDTO;
+import com.felipe.msfuelsupply.user.dtos.LoginRequestBody;
+import com.felipe.msfuelsupply.user.dtos.SignUpRequestBody;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
