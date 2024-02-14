@@ -25,11 +25,11 @@ Here are the technologies used in this project.
 * Java JWT
 
 # Microservice-Fuel-Supply diagram
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/acce656e-8015-4edd-a668-a0da6592ea8c)
+![Microservice's diagram](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/1184deb6-d05f-46aa-a5a9-046b846030e0)
 
 
-# Microservice-Fuel-Supply ERD
-![image](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/06c632b0-44cf-41b4-80ee-eed1e25cd1dd)
+# Microservice-Fuel-Supply database ERD
+![Microservice's database ERD](https://github.com/felipemarques001/ms-fuel-supply/assets/82411791/06c632b0-44cf-41b4-80ee-eed1e25cd1dd)
 
 
 # Documentation:
